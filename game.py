@@ -1,30 +1,41 @@
 import random
 
 
+def print_field(game_field):
+    print('|'.join(game_field[0:3]))
+    print('|'.join(game_field[3:6]))
+    print('|'.join(game_field[6:9]))
+
+
 def choose_destiny():
-    #comp = ''
-    player = str(input('choose your destiny (x/o or toss for random):'))
-    if player == 'toss':
-        player = random.choice(('X', 'O'))
-        #print(player, end='\n')
-        comp = 'O' if player == 'X' else 'X'
-        #print(comp, end='\n')
-    elif player.lower() == 'x' or player.lower() == 'х':
-        player = 'X'
-        comp = 'O'
-    elif player.lower() == 'o' or player.lower() == 'о':
-        player = 'O'
-        comp = 'X'
+    p = str(input('choose your destiny (x/o or toss for random):'))
+    if p == 'toss':
+        p = random.choice(('X', 'O'))
+        c = 'O' if p == 'X' else 'X'
+    elif p.lower() == 'x' or p.lower() == 'х':
+        p = 'X'
+        c = 'O'
+    elif p.lower() == 'o' or p.lower() == 'о':
+        p = 'O'
+        c = 'X'
     else:
         print("Можно вводить только О, Х или toss. Попробуйте еще раз.")
-        player = ''
-        comp = ''
-        choose_destiny()
-    return player, comp
+        return choose_destiny()
+    return p, c
 
-#TODO Разобраться с else.
-#player1, comp1 = choose_destiny()
-#print(player1, comp1)
 
-#a = random.choice(('X', 'O'))
-#print(a)
+def move(player, comp):
+    pass
+
+
+def main():
+    game_field = ['_1_', '_2_', '_3_',
+                  '_4_', '_5_', '_6_',
+                  '_7_', '_8_', '_9_']
+    moves_list = range(1, 10)
+    print_field(game_field)
+    player, comp = choose_destiny()
+
+
+if __name__ == '__main__':
+    main()
