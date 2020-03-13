@@ -2,9 +2,8 @@ import random
 
 
 def print_field(game_field):
-    print('|'.join(game_field[0:3]))
-    print('|'.join(game_field[3:6]))
-    print('|'.join(game_field[6:9]))
+    for i in range(3):
+        print('|'.join(game_field[i:i+3]))
 
 
 def choose_destiny():
