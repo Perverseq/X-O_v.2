@@ -23,37 +23,66 @@ def choose_destiny():
     return player, comp
 
 
-def determine_turn(player, comp, game_field, moves_list):
+def determine_turn(player, game_field, moves_list):
     if player == 'X':
-        print("X's turn.")
-        player_turn(player, game_field, moves_list)
-        print("O's turn.")
-        comp_turn(comp, game_field, moves_list)
+        player_x_turn(game_field, moves_list)
+        comp_o_turn(game_field, moves_list)
     else:
-        print("X's turn.")
-        comp_turn(comp, game_field, moves_list)
-        print("O's turn.")
-        player_turn(player, game_field, moves_list)
-
-#TODO refactor to DRY
+        comp_x_turn(game_field, moves_list)
+        player_o_turn(game_field, moves_list)
 
 
-def player_turn(player, game_field, moves_list):
-        try:
-            player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
-            game_field[player_move - 1] = '_X_'
-            moves_list.remove(player_move)
-            #print(moves_list)
-            print_field(game_field)
-        except IndexError:
-            print('You can choose your move only from available moves')
-            return player_turn(player, game_field, moves_list)
+def player_x_turn(game_field, moves_list):
+    print("X's turn.")
+    try:
+        player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
+        game_field[player_move - 1] = '_X_'  # TODO disable rewriting
+        moves_list.remove(player_move)
+        # print(moves_list)
+        print_field(game_field)
+    except IndexError:
+        print('You can choose your move only from available moves')
+        return player_x_turn(game_field, moves_list)
+    except ValueError:
+        print('You can choose your move only from available moves')
+        return player_x_turn(game_field, moves_list)
 
 
-def comp_turn(comp, game_field, moves_list):
+def player_o_turn(game_field, moves_list):
+    print("O's turn.")
+    try:
+        player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
+        game_field[player_move - 1] = '_O_'  # TODO disable rewriting
+        moves_list.remove(player_move)
+        # print(moves_list)
+        print_field(game_field)
+    except IndexError:
+        print('You can choose your move only from available moves')
+        return player_o_turn(game_field, moves_list)
+    except ValueError:
+        print('You can choose your move only from available moves')
+        return player_o_turn(game_field, moves_list)
 
 
+def comp_x_turn(game_field, moves_list):
+    print("X's turn.")
+    comp_move = random.choice(moves_list)
+    print("Computer choose cell %d" % comp_move)
+    game_field[comp_move - 1] = '_X_'
+    moves_list.remove(comp_move)
+    print_field(game_field)
 
+
+def comp_o_turn(game_field, moves_list):
+    print("O's turn.")
+    comp_move = random.choice(moves_list)
+    print("Computer choose cell %d" % comp_move)
+    game_field[comp_move - 1] = '_O_'
+    moves_list.remove(comp_move)
+    print_field(game_field)
+
+
+# TODO refactor to DRY
 def main():
     game_field = ['_1_', '_2_', '_3_',
                   '_4_', '_5_', '_6_',
@@ -62,8 +91,10 @@ def main():
     print_field(game_field)
     player_sign, comp_sign = choose_destiny()
     #print(player, comp)
+    while moves_list:
+        determine_turn(player_sign, game_field, moves_list)
+    print('moves list is done.')
 
-    determine_turn(player_sign, comp_sign, game_field, moves_list)
 
 if __name__ == '__main__':
     main()
