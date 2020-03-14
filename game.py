@@ -39,7 +39,7 @@ def player_x_turn(game_field, moves_list):
     #try:
     player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
     if player_move in moves_list:
-        game_field[player_move - 1] = '_X_'  # TODO disable rewriting
+        game_field[player_move - 1] = '_X_'
         moves_list.remove(player_move)
         # print(moves_list)
         print_field(game_field)
@@ -59,7 +59,7 @@ def player_o_turn(game_field, moves_list):
     #try:
     player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
     if player_move in moves_list:
-        game_field[player_move - 1] = '_O_'  # TODO disable rewriting
+        game_field[player_move - 1] = '_O_'
         moves_list.remove(player_move)
         # print(moves_list)
         print_field(game_field)
