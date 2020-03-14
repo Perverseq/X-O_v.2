@@ -23,13 +23,15 @@ def choose_destiny():
     return player, comp
 
 
-def determine_turn(player, game_field, moves_list):
+def determine_turn(player):
     if player == 'X':
-        player_x_turn(game_field, moves_list)
-        comp_o_turn(game_field, moves_list)
+        player_moves = True
+        print('Player is "X", Computer is "O". Player moves first.')
+        return player_moves
     else:
-        comp_x_turn(game_field, moves_list)
-        player_o_turn(game_field, moves_list)
+        player_moves = False
+        print('Player is "O", Computer is "X". Computer moves first.')
+        return player_moves
 
 
 def player_x_turn(game_field, moves_list):
@@ -81,7 +83,11 @@ def comp_o_turn(game_field, moves_list):
     moves_list.remove(comp_move)
     print_field(game_field)
 
+def check_winner(game_field):
 
+
+
+# TODO try to add logic to comp moves
 # TODO refactor to DRY
 def main():
     game_field = ['_1_', '_2_', '_3_',
@@ -91,8 +97,21 @@ def main():
     print_field(game_field)
     player_sign, comp_sign = choose_destiny()
     #print(player, comp)
+    player_moves = determine_turn(player_sign)
     while moves_list:
-        determine_turn(player_sign, game_field, moves_list)
+        if player_moves:
+            player_x_turn(game_field, moves_list)
+            if moves_list:
+                comp_o_turn(game_field, moves_list)
+            else:
+                break
+        else:
+            comp_x_turn(game_field, moves_list)
+            if moves_list:
+                player_o_turn(game_field, moves_list)
+            else:
+                break
+
     print('moves list is done.')
 
 
