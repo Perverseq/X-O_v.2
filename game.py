@@ -2,8 +2,8 @@ import random
 
 
 def print_field(game_field):
-    for i in range(3):
-        print('|'.join(game_field[i:i+3]))
+    for i in range(0, 10, 3):
+        print('|'.join(game_field[i: i + 3]))
 
 
 def choose_destiny():
@@ -27,8 +27,11 @@ def move(p, c, game_field, moves_list):
     if p == 'X':
         try:
             player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
-            game_field[player_move].replace('_X_')
-            moves_list.pop(player_move)
+            game_field[player_move - 1] = '_X_'
+            #game_field.remove(player_move)
+            moves_list.remove(player_move)
+            #print(moves_list)
+            print_field(game_field)
         except ValueError:
             print('You can choose your move only from available moves')
 
