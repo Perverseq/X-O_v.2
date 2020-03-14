@@ -23,18 +23,34 @@ def choose_destiny():
     return player, comp
 
 
-def move(p, c, game_field, moves_list):
-    if p == 'X':
+def determine_turn(player, comp, game_field, moves_list):
+    if player == 'X':
+        print("X's turn.")
+        player_turn(player, game_field, moves_list)
+        print("O's turn.")
+        comp_turn(comp, game_field, moves_list)
+    else:
+        print("X's turn.")
+        comp_turn(comp, game_field, moves_list)
+        print("O's turn.")
+        player_turn(player, game_field, moves_list)
+
+#TODO refactor to DRY
+
+
+def player_turn(player, game_field, moves_list):
         try:
             player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
             game_field[player_move - 1] = '_X_'
-            #game_field.remove(player_move)
             moves_list.remove(player_move)
             #print(moves_list)
             print_field(game_field)
-        except ValueError:
+        except IndexError:
             print('You can choose your move only from available moves')
+            return player_turn(player, game_field, moves_list)
 
+
+def comp_turn(comp, game_field, moves_list):
 
 
 
@@ -46,7 +62,8 @@ def main():
     print_field(game_field)
     player_sign, comp_sign = choose_destiny()
     #print(player, comp)
-    move(player_sign, comp_sign, game_field, moves_list)
+
+    determine_turn(player_sign, comp_sign, game_field, moves_list)
 
 if __name__ == '__main__':
     main()
