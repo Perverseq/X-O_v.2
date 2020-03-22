@@ -34,101 +34,78 @@ def determine_turn(player):
         return player_moves
 
 
-def player_x_turn(game_field, moves_list):
-    print("X's turn.")
-    #try:
-    player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
-    if player_move in moves_list:
-        game_field[player_move - 1] = '_X_'
-        moves_list.remove(player_move)
-        # print(moves_list)
-        print_field(game_field)
-    else:
+def player_turn(player_sign, game_field, moves_list):
+    try:
+        player_move = int(input(f"Choose number of cell for move from available moves {moves_list}"))
+        if player_move in moves_list:
+            game_field[player_move - 1] = player_sign
+            moves_list.remove(player_move)
+            print_field(game_field)
+        else:
+            print('You can choose your move only from available moves')
+            return player_turn(player_sign, game_field, moves_list)
+    except ValueError or IndexError:
         print('You can choose your move only from available moves')
-        return player_x_turn(game_field, moves_list)
-    #except IndexError:
-    #    print('You can choose your move only from available moves')
-    #    return player_x_turn(game_field, moves_list)
-    #except ValueError:
-    #    print('You can choose your move only from available moves')
-    #    return player_x_turn(game_field, moves_list)
+        return player_turn(player_sign, game_field, moves_list)
 
 
-def player_o_turn(game_field, moves_list):
-    print("O's turn.")
-    #try:
-    player_move = int(input("Choose number of cell for move from available moves %s" % moves_list))
-    if player_move in moves_list:
-        game_field[player_move - 1] = '_O_'
-        moves_list.remove(player_move)
-        # print(moves_list)
-        print_field(game_field)
-    else:
-        print('You can choose your move only from available moves')
-        return player_o_turn(game_field, moves_list)
-    #except IndexError:
-    #    print('You can choose your move only from available moves')
-    #    return player_o_turn(game_field, moves_list)
-    #except ValueError:
-    #    print('You can choose your move only from available moves')
-    #    return player_o_turn(game_field, moves_list)
-
-
-def comp_x_turn(game_field, moves_list):
-    print("X's turn.")
+def comp_turn(comp_sign, game_field, moves_list):
     comp_move = random.choice(moves_list)
-    print("Computer choose cell %d" % comp_move)
-    game_field[comp_move - 1] = '_X_'
-    moves_list.remove(comp_move)
-    print_field(game_field)
-
-
-def comp_o_turn(game_field, moves_list):
-    print("O's turn.")
-    comp_move = random.choice(moves_list)
-    print("Computer choose cell %d" % comp_move)
-    game_field[comp_move - 1] = '_O_'
+    print(f"Computer choose cell {comp_move}")
+    game_field[comp_move - 1] = comp_sign
     moves_list.remove(comp_move)
     print_field(game_field)
 
 
 def check_winner(player_sign, game_field, moves_list, game):
-    try:
-        for i in range(0, 9, 3):
-            if game_field[i] == game_field[i + 1] == game_field[i + 2]:
-                game = False
-                if game_field[i] == player_sign:
-                    print("Player wins.")
-                else:
-                    print("Computer wins.")
-        for i in range(0, 3):
-            if game_field[i] == game_field[i + 3] == game_field[i + 6]:
-                game = False
-                if game_field[i] == player_sign:
-                    print("Player wins.")
-                else:
-                    print("Computer wins.")
-        if game_field[0] == game_field[4] == game_field[8]:
+    player_wins = False
+    comp_wins = False
+    draw = False
+    for i in range(0, 9, 3):
+        if game_field[i] == game_field[i + 1] == game_field[i + 2]:
             game = False
-            if game_field[0] == player_sign:
-                print("Player wins.")
+            if game_field[i] == player_sign:
+                player_wins = True
             else:
-                print("Computer wins.")
-        if game_field[2] == game_field[4] == game_field[6]:
+                comp_wins = True
+    for i in range(0, 3):
+        if game_field[i] == game_field[i + 3] == game_field[i + 6]:
             game = False
-            if game_field[2] == player_sign:
-                print("Player wins.")
+            if game_field[i] == player_sign:
+                player_wins = True
             else:
-                print("Computer wins.")
-    except ValueError:
-        if not moves_list:
-            game = False
-            print("It's a draw.")
+                comp_wins = True
+    if game_field[0] == game_field[4] == game_field[8]:
+        game = False
+        if game_field[0] == player_sign:
+            player_wins = True
+        else:
+            comp_wins = True
+    if game_field[2] == game_field[4] == game_field[6]:
+        game = False
+        if game_field[2] == player_sign:
+            player_wins = True
+        else:
+            comp_wins = True
+    if len(moves_list) == 0 and game is True:
+        game = False
+        draw = True
+    print_result(player_wins, comp_wins, draw)
     return game
+
+
+def print_result(player_wins, comp_wins, draw):
+    if player_wins:
+        print("Player wins.")
+    elif comp_wins:
+        print("Computer wins.")
+    elif draw:
+        print("It's a draw.")
 
 
 # TODO try to add logic to comp moves
 # TODO refactor to DRY
+# TODO choose game field 3x3 6x6 9x9
 def main():
     game_field = ['_1_', '_2_', '_3_',
                   '_4_', '_5_', '_6_',
@@ -136,26 +113,24 @@ def main():
     moves_list = list(range(1, 10))
 
     player_sign, comp_sign = choose_destiny()
-    #print(player, comp)
     player_moves = determine_turn(player_sign)
     game = True
     print_field(game_field)
     while game:
         if player_moves:
-            player_x_turn(game_field, moves_list)
+            player_turn(player_sign, game_field, moves_list)
             game = check_winner(player_sign, game_field, moves_list, game)
             if not game:
                 break
-            comp_o_turn(game_field, moves_list)
+            comp_turn(comp_sign, game_field, moves_list)
             game = check_winner(player_sign, game_field, moves_list, game)
         else:
-            comp_x_turn(game_field, moves_list)
+            comp_turn(comp_sign, game_field, moves_list)
             game = check_winner(player_sign, game_field, moves_list, game)
             if not game:
                 break
-            player_o_turn(game_field, moves_list)
+            player_turn(player_sign, game_field, moves_list)
             game = check_winner(player_sign, game_field, moves_list, game)
-
 
 
 if __name__ == '__main__':
