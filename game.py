@@ -4,20 +4,13 @@ import random
 def print_field(game_field):
     if len(game_field) == 9:
         for i in range(0, 9, 3):
-            print('|'.join(game_field[i: i + 3]), end='|')
-            print("")
+            print('|'.join(game_field[i: i + 3]))
     elif len(game_field) == 36:
         for i in range(0, 36, 6):
-            line = game_field[i: i + 6]
-            for c in line:
-                print("{:>4}".format(c), end="|")
-            print("")
+            print('|'.join(game_field[i: i + 6]))
     elif len(game_field) == 81:
         for i in range(0, 81, 9):
-            line = game_field[i: i + 9]
-            for c in line:
-                print("{:>4}".format(c), end="|")
-            print("")
+            print('|'.join(game_field[i: i + 9]))
 
 
 def print_result(player_wins, comp_wins, draw):
@@ -56,16 +49,16 @@ def choose_field_size():
     field_size = str(input('Choose desired field size (3x3, 6x6, 9x9 or toss for random):\n')).lower()
     if field_size == 'toss':
         field_size = random.choice((9, 36, 81))
-        game_field = [f'_{x}_' for x in range(1, field_size + 1)]
+        game_field = [f'_{x:>2}_' for x in range(1, field_size + 1)]
         moves_list = list(range(1, field_size))
     elif field_size in ('3x3', '3х3'): # for eng and rus
-        game_field = [f'_{x}_' for x in range(1, 10)]
+        game_field = [f'_{x:>2}_' for x in range(1, 10)]
         moves_list = list(range(1, 10))
     elif field_size in ('6x6', '6х6'): # for eng and rus
-        game_field = [f'_{x}_' for x in range(1, 37)]
+        game_field = [f'_{x:>2}_' for x in range(1, 37)]
         moves_list = list(range(1, 37))
     elif field_size in ('9x9', '9х9'): # for eng and rus
-        game_field = [f'_{x}_' for x in range(1, 82)]
+        game_field = [f'_{x:>2}_' for x in range(1, 82)]
         moves_list = list(range(1, 82))
     else:
         print_size_fail()
