@@ -2,8 +2,15 @@ import random
 
 
 def print_field(game_field):
-    for i in range(0, 10, 3):
-        print('|'.join(game_field[i: i + 3]))
+    if len(game_field) == 9:
+        for i in range(0, 10, 3):
+            print('|'.join(game_field[i: i + 3]))
+    elif len(game_field) == 36:
+        for i in range(0, 36, 6):
+            print('|'.join(game_field[i: i + 6]))
+    elif len(game_field) == 81:
+        for i in range(0, 81, 9):
+            print('|'.join(game_field[i: i + 9]))
 
 
 def print_result(player_wins, comp_wins, draw):
@@ -32,6 +39,27 @@ def print_queue(player_moves):
         print('Player is "X", Computer is "O". Player moves first.')
     else:
         print('Player is "O", Computer is "X". Computer moves first.')
+
+
+def print_size_fail():
+    print('You can choose only 3x3, 6x6, 9x9 or toss for size. Try again. \n')
+
+
+def choose_field_size():
+    field_size = str(input('Choose desired field size (3x3, 6x6, 9x9 or toss for random):\n')).lower()
+    if field_size == 'toss':
+        field_size = random.choice((9, 36, 81))
+        game_field = [f'_{x}_' for x in range(1, field_size + 1)]
+    elif field_size in ('3x3', '3х3'): # for eng and rus
+        game_field = [f'_{x}_' for x in range(1, 10)]
+    elif field_size in ('6x6', '6х6'): # for eng and rus
+        game_field = [f'_{x}_' for x in range(1, 37)]
+    elif field_size in ('9x9', '9х9'): # for eng and rus
+        game_field = [f'_{x}_' for x in range(1, 82)]
+    else:
+        print_size_fail()
+        return choose_field_size()
+    return game_field
 
 
 def choose_destiny():
@@ -147,9 +175,7 @@ def game_3x3(game_field, player_moves, player_sign, comp_sign, moves_list):
 # TODO refactor to DRY
 # TODO choose game field 3x3 6x6 9x9
 def main():
-    game_field = ['_1_', '_2_', '_3_',
-                  '_4_', '_5_', '_6_',
-                  '_7_', '_8_', '_9_']
+    game_field = choose_field_size()
     moves_list = list(range(1, 10))
     player_sign, comp_sign = choose_destiny()
     player_moves = determine_turn(player_sign)
