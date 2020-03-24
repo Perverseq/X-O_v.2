@@ -84,7 +84,7 @@ def choose_destiny():
 
 
 def determine_turn(player):
-    if player == '_X_':
+    if player == '_ X_':
         player_moves = True
         print_queue(player_moves)
         return player_moves
