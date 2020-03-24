@@ -69,14 +69,14 @@ def choose_field_size():
 def choose_destiny():
     player = str(input('Choose your destiny (x, o or toss for random):\n')).lower()
     if player == 'toss':
-        player = random.choice(('_X_', '_O_'))
-        comp = '_O_' if player == '_X_' else '_X_'
+        player = random.choice(('_ X_', '_ O_'))
+        comp = '_ O_' if player == '_ X_' else '_ X_'
     elif player in ('x', 'х'):  # for eng and rus
-        player = '_X_'
-        comp = '_O_'
+        player = '_ X_'
+        comp = '_ O_'
     elif player in ('o', 'о'):  # for eng and rus
-        player = '_O_'
-        comp = '_X_'
+        player = '_ O_'
+        comp = '_ X_'
     else:
         print_destiny_fail()
         return choose_destiny()
