@@ -123,17 +123,7 @@ def check_winner(player_sign, game_field, moves_list, game):
     return game
 
 
-# TODO try to add logic to comp moves
-# TODO refactor to DRY
-# TODO choose game field 3x3 6x6 9x9
-def main():
-    game_field = ['_1_', '_2_', '_3_',
-                  '_4_', '_5_', '_6_',
-                  '_7_', '_8_', '_9_']
-    moves_list = list(range(1, 10))
-
-    player_sign, comp_sign = choose_destiny()
-    player_moves = determine_turn(player_sign)
+def game_3x3(game_field, player_moves, player_sign, comp_sign, moves_list):
     game = True
     print_field(game_field)
     while game:
@@ -151,6 +141,19 @@ def main():
                 break
             player_turn(player_sign, game_field, moves_list)
             game = check_winner(player_sign, game_field, moves_list, game)
+
+
+# TODO try to add logic to comp moves
+# TODO refactor to DRY
+# TODO choose game field 3x3 6x6 9x9
+def main():
+    game_field = ['_1_', '_2_', '_3_',
+                  '_4_', '_5_', '_6_',
+                  '_7_', '_8_', '_9_']
+    moves_list = list(range(1, 10))
+    player_sign, comp_sign = choose_destiny()
+    player_moves = determine_turn(player_sign)
+    game_3x3(game_field, player_moves, player_sign, comp_sign, moves_list)
 
 
 if __name__ == '__main__':
