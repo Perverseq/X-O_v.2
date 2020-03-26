@@ -156,26 +156,6 @@ def check_winner_3x3(player_sign, game_field, moves_list, game):
     return game
 
 
-def game_3x3(game_field, player_moves, player_sign, comp_sign, moves_list):
-    game = True
-    print_field(game_field)
-    while game:
-        if player_moves:
-            player_turn(player_sign, game_field, moves_list)
-            game = check_winner_3x3(player_sign, game_field, moves_list, game)
-            if not game:
-                break
-            comp_turn(comp_sign, game_field, moves_list)
-            game = check_winner_3x3(player_sign, game_field, moves_list, game)
-        else:
-            comp_turn(comp_sign, game_field, moves_list)
-            game = check_winner_3x3(player_sign, game_field, moves_list, game)
-            if not game:
-                break
-            player_turn(player_sign, game_field, moves_list)
-            game = check_winner_3x3(player_sign, game_field, moves_list, game)
-
-
 def check_winner_6x6(player_sign, game_field, moves_list, game):
     player_wins = False
     comp_wins = False
@@ -213,26 +193,6 @@ def check_winner_6x6(player_sign, game_field, moves_list, game):
         draw = True
     print_result(player_wins, comp_wins, draw)
     return game
-
-
-def game_6x6(game_field, player_moves, player_sign, comp_sign, moves_list):
-    game = True
-    print_field(game_field)
-    while game:
-        if player_moves:
-            player_turn(player_sign, game_field, moves_list)
-            game = check_winner_6x6(player_sign, game_field, moves_list, game)
-            if not game:
-                break
-            comp_turn(comp_sign, game_field, moves_list)
-            game = check_winner_6x6(player_sign, game_field, moves_list, game)
-        else:
-            comp_turn(comp_sign, game_field, moves_list)
-            game = check_winner_6x6(player_sign, game_field, moves_list, game)
-            if not game:
-                break
-            player_turn(player_sign, game_field, moves_list)
-            game = check_winner_6x6(player_sign, game_field, moves_list, game)
 
 
 def check_winner_9x9(player_sign, game_field, moves_list, game):
@@ -276,24 +236,34 @@ def check_winner_9x9(player_sign, game_field, moves_list, game):
     return game
 
 
-def game_9x9(game_field, player_moves, player_sign, comp_sign, moves_list):
+def check_winner_choosing(game_field, player_sign, moves_list, game):
+    if len(game_field) == 9:
+        game = check_winner_3x3(player_sign, game_field, moves_list, game)
+    elif len(game_field) == 36:
+        game = check_winner_6x6(player_sign, game_field, moves_list, game)
+    elif len(game_field) == 81:
+        game = check_winner_9x9(player_sign, game_field, moves_list, game)
+    return game
+
+
+def game_func(game_field, player_moves, player_sign, comp_sign, moves_list):
     game = True
     print_field(game_field)
     while game:
         if player_moves:
             player_turn(player_sign, game_field, moves_list)
-            game = check_winner_9x9(player_sign, game_field, moves_list, game)
+            game = check_winner_choosing(game_field, player_sign, moves_list, game)
             if not game:
                 break
             comp_turn(comp_sign, game_field, moves_list)
-            game = check_winner_9x9(player_sign, game_field, moves_list, game)
+            game = check_winner_choosing(game_field, player_sign, moves_list, game)
         else:
             comp_turn(comp_sign, game_field, moves_list)
-            game = check_winner_9x9(player_sign, game_field, moves_list, game)
+            game = check_winner_choosing(game_field, player_sign, moves_list, game)
             if not game:
                 break
             player_turn(player_sign, game_field, moves_list)
-            game = check_winner_9x9(player_sign, game_field, moves_list, game)
+            game = check_winner_choosing(game_field, player_sign, moves_list, game)
 
 
 # TODO try to add logic to comp moves
@@ -303,11 +273,11 @@ def main():
     player_sign, comp_sign = choose_destiny()
     player_moves = determine_turn(player_sign)
     if len(moves_list) == 9:
-        game_3x3(game_field, player_moves, player_sign, comp_sign, moves_list)
+        game_func(game_field, player_moves, player_sign, comp_sign, moves_list)
     elif len(moves_list) == 36:
-        game_6x6(game_field, player_moves, player_sign, comp_sign, moves_list)
+        game_func(game_field, player_moves, player_sign, comp_sign, moves_list)
     elif len(moves_list) == 81:
-        game_9x9(game_field, player_moves, player_sign, comp_sign, moves_list)
+        game_func(game_field, player_moves, player_sign, comp_sign, moves_list)
 
 
 if __name__ == '__main__':
