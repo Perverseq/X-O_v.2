@@ -22,12 +22,8 @@ def print_result(player_wins, comp_wins, draw):
         print("It's a draw.")
 
 
-def print_destiny_fail():
-    print("You can use only X, O or toss. Try again.\n")
-
-
-def print_move_fail():
-    print('You can choose your move only from available moves')
+def print_fail(text):
+    print(text)
 
 
 def print_comp_move(comp_move):
@@ -39,10 +35,6 @@ def print_queue(player_moves):
         print('Player is "X", Computer is "O". Player moves first.')
     else:
         print('Player is "O", Computer is "X". Computer moves first.')
-
-
-def print_size_fail():
-    print('You can choose only 3x3, 6x6, 9x9 or toss for size. Try again. \n')
 
 
 def choose_field_size():
@@ -61,7 +53,8 @@ def choose_field_size():
         game_field = [f'_{x:>2}_' for x in range(1, 82)]
         moves_list = list(range(1, 82))
     else:
-        print_size_fail()
+        text = 'You can choose only 3x3, 6x6, 9x9 or toss for size. Try again. \n'
+        print_fail(text)
         return choose_field_size()
     return game_field, moves_list
 
@@ -78,7 +71,8 @@ def choose_destiny():
         player = '_ O_'
         comp = '_ X_'
     else:
-        print_destiny_fail()
+        text = "You can use only X, O or toss. Try again.\n"
+        print_fail(text)
         return choose_destiny()
     return player, comp
 
@@ -95,6 +89,7 @@ def determine_turn(player):
 
 
 def player_turn(player_sign, game_field, moves_list):
+    text = 'You can choose your move only from available moves'
     try:
         player_move = int(input("Choose number of cell for move from available moves\n"))
         if player_move in moves_list:
@@ -102,11 +97,11 @@ def player_turn(player_sign, game_field, moves_list):
             moves_list.remove(player_move)
             print_field(game_field)
         else:
-            print_move_fail()
+            print_fail(text)
             print_field(game_field)
             return player_turn(player_sign, game_field, moves_list)
     except (ValueError, IndexError):
-        print_move_fail()
+        print_fail(text)
         print_field(game_field)
         return player_turn(player_sign, game_field, moves_list)
 
