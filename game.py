@@ -50,14 +50,14 @@ def choose_field_size():
     if field_size == 'toss':
         field_size = random.choice((9, 36, 81))
         game_field = [f'_{x:>2}_' for x in range(1, field_size + 1)]
-        moves_list = list(range(1, field_size))
-    elif field_size in ('3x3', '3х3'): # for eng and rus
+        moves_list = list(range(1, field_size + 1))
+    elif field_size in ('3x3', '3х3'):  # for eng and rus
         game_field = [f'_{x:>2}_' for x in range(1, 10)]
         moves_list = list(range(1, 10))
-    elif field_size in ('6x6', '6х6'): # for eng and rus
+    elif field_size in ('6x6', '6х6'):  # for eng and rus
         game_field = [f'_{x:>2}_' for x in range(1, 37)]
         moves_list = list(range(1, 37))
-    elif field_size in ('9x9', '9х9'): # for eng and rus
+    elif field_size in ('9x9', '9х9'):  # for eng and rus
         game_field = [f'_{x:>2}_' for x in range(1, 82)]
         moves_list = list(range(1, 82))
     else:
@@ -96,7 +96,7 @@ def determine_turn(player):
 
 def player_turn(player_sign, game_field, moves_list):
     try:
-        player_move = int(input(f"Choose number of cell for move from available moves\n"))
+        player_move = int(input("Choose number of cell for move from available moves\n"))
         if player_move in moves_list:
             game_field[player_move - 1] = player_sign
             moves_list.remove(player_move)
