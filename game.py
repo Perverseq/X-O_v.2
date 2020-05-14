@@ -218,17 +218,12 @@ def game_func(game_field, player_moves, player_sign, comp_sign, moves_list):
     while game:
         if player_moves:
             player_turn(player_sign, game_field, moves_list)
-            game = check_winner(game_field, game, player_sign, moves_list)
-            if not game:
-                break
-            comp_turn(comp_sign, game_field, moves_list)
-            game = check_winner(game_field, game, player_sign, moves_list)
         else:
             comp_turn(comp_sign, game_field, moves_list)
-            game = check_winner(game_field, game, player_sign, moves_list)
-            if not game:
-                break
-            player_turn(player_sign, game_field, moves_list)
+        player_moves = not player_moves
+        game = check_winner(game_field, game, player_sign, moves_list)
+        if not game:
+            break
 
 
 # TODO try to add logic to comp moves
