@@ -196,8 +196,10 @@ def check_diagonals(game_field, game):
 
 def check_winner(game_field, game, player_sign, moves_list):
     game, winner_char = check_vertical(game_field, game)
-    game, winner_char = check_horizontal(game_field, game)
-    game, winner_char = check_diagonals(game_field, game)
+    if game:
+        game, winner_char = check_horizontal(game_field, game)
+        if game:
+            game, winner_char = check_diagonals(game_field, game)
     if winner_char:
         winner_choosing(winner_char, player_sign)
     elif not moves_list and not winner_char:
@@ -240,12 +242,7 @@ def main():
     game_field, moves_list = choose_field_size()
     player_sign, comp_sign = choose_destiny()
     player_moves = determine_turn(player_sign)
-    if len(moves_list) == 9:
-        game_func(game_field, player_moves, player_sign, comp_sign, moves_list)
-    elif len(moves_list) == 36:
-        game_func(game_field, player_moves, player_sign, comp_sign, moves_list)
-    elif len(moves_list) == 81:
-        game_func(game_field, player_moves, player_sign, comp_sign, moves_list)
+    game_func(game_field, player_moves, player_sign, comp_sign, moves_list)
 
 
 if __name__ == '__main__':
