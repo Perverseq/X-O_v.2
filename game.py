@@ -43,20 +43,17 @@ def choose_field_size():
     field_size = str(input('Choose desired field size (3x3, 6x6, 9x9 or toss for random):\n')).lower()
     if field_size == 'toss':
         field_size = random.choice((9, 36, 81))
-        game_field, moves_list = fill_field_moves(field_size)
     elif field_size in ('3x3', '3х3'):  # for eng and rus
         field_size = 9
-        game_field, moves_list = fill_field_moves(field_size)
     elif field_size in ('6x6', '6х6'):  # for eng and rus
         field_size = 36
-        game_field, moves_list = fill_field_moves(field_size)
     elif field_size in ('9x9', '9х9'):  # for eng and rus
         field_size = 81
-        game_field, moves_list = fill_field_moves(field_size)
     else:
         text = 'You can choose only 3x3, 6x6, 9x9 or toss for size. Try again. \n'
         print_info(text)
         return choose_field_size()
+    game_field, moves_list = fill_field_moves(field_size)
     return game_field, moves_list
 
 
@@ -81,12 +78,10 @@ def choose_destiny():
 def determine_turn(player):
     if player == '_ X_':
         player_moves = True
-        print_queue(player_moves)
-        return player_moves
     else:
         player_moves = False
-        print_queue(player_moves)
-        return player_moves
+    print_queue(player_moves)
+    return player_moves
 
 
 def player_turn(player_sign, game_field, moves_list):
