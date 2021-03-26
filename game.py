@@ -115,19 +115,17 @@ def check_vertical(game_field, game):
     winner_char = None
     if len(game_field) == 9:
         for i in range(0, 3):
-            if game_field[i] == game_field[i + 3] == game_field[i + 6]:
+            if all(char == game_field[i] for char in game_field[i:9:3]):
                 game = False
                 winner_char = game_field[i]
     elif len(game_field) == 36:
         for i in range(0, 6):
-            if game_field[i] == game_field[i + 6] == game_field[i + 12] == game_field[i + 18] == game_field[i + 24] == \
-                    game_field[i + 30]:
+            if all(char == game_field[i] for char in game_field[i:36:6]):
                 game = False
                 winner_char = game_field[i]
     elif len(game_field) == 81:
         for i in range(0, 9):
-            if game_field[i] == game_field[i + 9] == game_field[i + 18] == game_field[i + 27] == game_field[i + 36] == \
-                    game_field[i + 45] == game_field[i + 54] == game_field[i + 63] == game_field[i + 72]:
+            if all(char == game_field[i] for char in game_field[i:81:9]):
                 game = False
                 winner_char = game_field[i]
     else:
@@ -139,19 +137,17 @@ def check_horizontal(game_field, game):
     winner_char = None
     if len(game_field) == 9:
         for i in range(0, 9, 3):
-            if game_field[i] == game_field[i + 1] == game_field[i + 2]:
+            if all(char == game_field[i] for char in game_field[i:i+3]):
                 game = False
                 winner_char = game_field[i]
     elif len(game_field) == 36:
         for i in range(0, 36, 6):
-            if game_field[i] == game_field[i + 1] == game_field[i + 2] == game_field[i + 3] == game_field[i + 4] == \
-                    game_field[i + 5]:
+            if all(char == game_field[i] for char in game_field[i:i+6]):
                 game = False
                 winner_char = game_field[i]
     elif len(game_field) == 81:
         for i in range(0, 81, 9):
-            if game_field[i] == game_field[i + 1] == game_field[i + 2] == game_field[i + 3] == game_field[i + 4] == \
-                    game_field[i + 5] == game_field[i + 6] == game_field[i + 7] == game_field[i + 8]:
+            if all(char == game_field[i] for char in game_field[i:i+9]):
                 game = False
                 winner_char = game_field[i]
     else:
@@ -162,26 +158,24 @@ def check_horizontal(game_field, game):
 def check_diagonals(game_field, game):
     winner_char = None
     if len(game_field) == 9:
-        if game_field[0] == game_field[4] == game_field[8]:
+        if all(char == game_field[0] for char in game_field[0:9:4]):
             game = False
             winner_char = game_field[4]
-        elif game_field[2] == game_field[4] == game_field[6]:
+        elif all(char == game_field[2] for char in game_field[2:7:2]):
             game = False
             winner_char = game_field[4]
     elif len(game_field) == 36:
-        if game_field[0] == game_field[7] == game_field[14] == game_field[21] == game_field[28] == game_field[35]:
+        if all(char == game_field[0] for char in game_field[0:36:7]):
             game = False
             winner_char = game_field[0]
-        elif game_field[5] == game_field[10] == game_field[15] == game_field[20] == game_field[25] == game_field[30]:
+        elif all(char == game_field[5] for char in game_field[5:31:5]):
             game = False
             winner_char = game_field[5]
     elif len(game_field) == 81:
-        if game_field[0] == game_field[10] == game_field[20] == game_field[30] == game_field[40] == game_field[50] == \
-                game_field[60] == game_field[70] == game_field[80]:
+        if all(char == game_field[0] for char in game_field[0:81:10]):
             game = False
             winner_char = game_field[0]
-        elif game_field[8] == game_field[16] == game_field[24] == game_field[32] == game_field[40] == \
-                game_field[48] == game_field[56] == game_field[64] == game_field[72]:
+        elif all(char == game_field[8] for char in game_field[8:73:8]):
             game = False
             winner_char = game_field[8]
     else:
